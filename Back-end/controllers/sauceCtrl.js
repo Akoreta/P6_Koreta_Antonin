@@ -1,7 +1,5 @@
 const Sauce = require('../models/sauceMdl');
-const bcrypt = require('bcrypt');
-const jswtk = require('jsonwebtoken');
-const fs = require('fs');
+const fs = require('fs'); // File system \\
 const sauceReg = new RegExp(/^[a-z,-,é,è,.'-\s]+$/i);
 
 exports.getSauce = (req, res, next) => { // Toutes les sauces \\ 
@@ -16,7 +14,7 @@ exports.getOne = (req, res, next) => { // Une seule sauce avec id_ dans les para
         .catch(error => res.status(404).json({ error }))
 }
 
-exports.create = (req, res, next) => {
+exports.create = (req, res, next) => { // Création \\
     const sauceObject = JSON.parse(req.body.sauce);
     const sauce = new Sauce({
         ...sauceObject,
@@ -35,7 +33,7 @@ exports.create = (req, res, next) => {
     }
 }
 
-exports.editSauce = (req, res, next) => {
+exports.editSauce = (req, res, next) => { // Modification de la sauce :id\\
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -49,7 +47,7 @@ exports.editSauce = (req, res, next) => {
     }
 }
 
-exports.deleteSauce = (req, res, next) => {
+exports.deleteSauce = (req, res, next) => { // Supprimer sauce :id \\ 
     Sauce.findOne({ _id: req.params.id })
         .then(Sauce => {
             const fileName = Sauce.imageUrl.split('/images/')[1];
@@ -61,20 +59,19 @@ exports.deleteSauce = (req, res, next) => {
         })
 }
 
-exports.likeSauce = (req, res, next) => {
+exports.likeSauce = (req, res, next) => { // Like sauce :id \\
     let likeUser = req.body.like;
     switch (likeUser) {
-        case 1:
+        case 1: // Like \\ 
             Sauce.updateOne({ _id: req.params.id }, {
                     $push: { usersLiked: req.body.userId },
                     $inc: { likes: +1 }
                 })
                 .then(() => res.status(200).json({ message: 'Like' }))
                 .catch(error => res.status(400).json({ error }))
-            console.log('Like', req.body);
             break
 
-        case 0:
+        case 0: // Annule like ou dislike \\ 
             Sauce.findOne({ _id: req.params.id })
                 .then(sauce => {
                     if (sauce.usersLiked.includes(req.body.userId)) {
@@ -99,14 +96,13 @@ exports.likeSauce = (req, res, next) => {
                 })
             break
 
-        case -1:
+        case -1: // Dislike \\ 
             Sauce.updateOne({ _id: req.params.id }, {
                     $push: { usersDisliked: req.body.userId },
                     $inc: { dislikes: +1 }
                 })
                 .then(() => res.status(200).json({ message: 'Dislike' }))
                 .catch(error => res.status(400).json({ error }))
-            console.log('Dislike')
             break
     }
 
