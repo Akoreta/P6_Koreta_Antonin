@@ -8,7 +8,7 @@ const helmet = require('helmet');
 const app = express();
 
 
-mongoose.connect('mongodb+srv://akrt:DteGKySPhtQ8WLpg@piquante.isxp4.mongodb.net/Piquantes?retryWrites=true&w=majority', {
+mongoose.connect('connect_string', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
