@@ -1,6 +1,28 @@
-Projet 6 Piquante 
+
+# Piquante
+
+Piquante is a web application that lets anyone rate and publish sauces. We had to create the API to connect it to the front-end and secure it.
+## 🛠 Skills
+ - NodeJS/Express ⚙️
+ - MongoDB ⚙️
+ - Basic Authentication (jwt) ⚙️
+ - Multer and file management ⚙️
 
 
-Vous aurez besoin d'avoir Node et npm installé localement sur votre machine.
+## Installation
 
- À partir du dossier Back-end, exécutez npm install. Vous pouvez ensuite exécuter le serveur avec node server. Le serveur doit fonctionner localhost avec le port par défaut 3000.
+Prerequisites
+You will need to have Node and npm installed locally on your machine.
+
+
+Installation
+
+- To run the server (localhost:3000)
+
+```bash
+npm install
+```
+
+```bash
+node server
+```
